@@ -2,11 +2,14 @@ import React, { ReactElement } from "react";
 import { SafeAreaView } from "react-native";
 import styles from "./single-player-game.styles";
 import { GradientBackground, Board } from "@components";
-import { printFormattedBoard, BoardState } from "@utils";
+import { printFormattedBoard, BoardState, isEmpty, isFull, getAvailableMoves } from "@utils";
 
 export default function Game(): ReactElement {
-    const b: BoardState = ["x", "o", "o", "x", "o", null, "x", "o", null];
+    const b: BoardState = ["x", "o", "x", "o", "x", null, "o", "x", null];
     printFormattedBoard(b);
+    console.log(isEmpty(b));
+    console.log(isFull(b));
+    console.log(getAvailableMoves(b));
     return (
         <GradientBackground>
             <SafeAreaView style={styles.container}>
