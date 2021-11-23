@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         marginTop: StatusBar.currentHeight,
-        paddingTop: 80
+        paddingTop: 30
     },
     difficulty: {
         color: colors.lightGreen,
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     results: {
         flexDirection: "row",
         justifyContent: "center",
-        marginBottom: 35
+        marginBottom: 70
     },
     resultsBox: {
         backgroundColor: colors.lightGreen,
