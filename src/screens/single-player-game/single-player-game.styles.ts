@@ -3,7 +3,9 @@ import { StyleSheet, StatusBar } from "react-native";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: StatusBar.currentHeight
+        alignItems: "center",
+        marginTop: StatusBar.currentHeight,
+        paddingTop: 80
     }
 });
 
