@@ -1,60 +1,12 @@
-import React, { ReactElement, useState, useEffect } from "react";
-import { ScrollView, View, TouchableOpacity, Switch, Alert } from "react-native";
+import React, { ReactElement } from "react";
+import { ScrollView, View, TouchableOpacity, Switch } from "react-native";
 import { GradientBackground, Text } from "@components";
 import styles from "./settings.styles";
 import { colors } from "@utils";
-import AsyncStorage from "@react-native-community/async-storage";
-
-const difficulties = {
-    "1": "Begginer",
-    "3": "Intermediate",
-    "4": "Hard",
-    "-1": "Impossible"
-};
-
-type SettingsType = {
-    difficulty: keyof typeof difficulties;
-    haptics: boolean;
-    sounds: boolean;
-};
-
-const defaultSettings: SettingsType = {
-    difficulty: "-1",
-    haptics: false,
-    sounds: true
-};
+import { difficulties, useSettings } from "@contexts/settings-context";
 
 export default function settings(): ReactElement | null {
-    const [settings, setSettings] = useState<SettingsType | null>(null);
-
-    const saveSetting = async <T extends keyof SettingsType>(
-        setting: T,
-        value: SettingsType[T]
-    ) => {
-        try {
-            const oldSettings = settings ? settings : defaultSettings;
-            const newSettings = { ...oldSettings, [setting]: value };
-            const jsonSettings = JSON.stringify(newSettings);
-            await AsyncStorage.setItem("@settings", jsonSettings);
-            setSettings(newSettings);
-        } catch (error) {
-            Alert.alert("Error!", "an error has occurred!");
-        }
-    };
-
-    const loadSettings = async () => {
-        try {
-            const settings = await AsyncStorage.getItem("@settings");
-            settings !== null ? setSettings(JSON.parse(settings)) : setSettings(defaultSettings);
-        } catch (error) {
-            setSettings(defaultSettings);
-        }
-    };
-
-    useEffect(() => {
-        loadSettings();
-    }, []);
-
+    const { settings, saveSetting } = useSettings();
     if (!settings) return null;
 
     return (
