@@ -1,0 +1,33 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-tictactoe-dev-93351-authRole",
+            "UnauthRoleArn": "arn:aws:iam::091471059258:role/amplify-tictactoe-dev-93351-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::091471059258:role/amplify-tictactoe-dev-93351-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-tictactoe-dev-93351-deployment",
+            "UnauthRoleName": "amplify-tictactoe-dev-93351-unauthRole",
+            "StackName": "amplify-tictactoe-dev-93351",
+            "StackId": "arn:aws:cloudformation:eu-west-2:091471059258:stack/amplify-tictactoe-dev-93351/9f328ea0-5110-11ec-a21e-0614899c4752",
+            "AmplifyAppId": "d25n18ntsabkfj"
+        }
+    },
+    "tictactoe": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-tictactoe-tictactoe-102030-authRole",
+            "UnauthRoleArn": "arn:aws:iam::091471059258:role/amplify-tictactoe-tictactoe-102030-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::091471059258:role/amplify-tictactoe-tictactoe-102030-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-tictactoe-tictactoe-102030-deployment",
+            "UnauthRoleName": "amplify-tictactoe-tictactoe-102030-unauthRole",
+            "StackName": "amplify-tictactoe-tictactoe-102030",
+            "StackId": "arn:aws:cloudformation:us-east-2:091471059258:stack/amplify-tictactoe-tictactoe-102030/2316fed0-5117-11ec-95f2-02d890c7688a",
+            "AmplifyAppId": "dmibb5zd41x2d"
+        },
+        "categories": {
+            "auth": {
+                "tictactoe0c8b3f75": {}
+            }
+        }
+    }
+}

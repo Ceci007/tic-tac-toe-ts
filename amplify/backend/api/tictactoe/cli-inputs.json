@@ -1,0 +1,12 @@
+{
+    "version": 1,
+    "serviceConfiguration": {
+        "apiName": "tictactoe",
+        "serviceName": "AppSync",
+        "gqlSchemaPath": "C:\\Users\\sol\\Desktop\\react-native\\tic-tac-toe\\amplify\\backend\\api\\tictactoe\\schema.graphql",
+        "defaultAuthType": {
+            "mode": "AMAZON_COGNITO_USER_POOLS",
+            "cognitoUserPoolId": "authtictactoe0c8b3f75"
+        }
+    }
+}
