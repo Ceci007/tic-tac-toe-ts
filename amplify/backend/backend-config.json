@@ -11,7 +11,19 @@
                             "userPoolId": "authtictactoe0c8b3f75"
                         }
                     },
-                    "additionalAuthenticationProviders": []
+                    "additionalAuthenticationProviders": [
+                        {
+                            "authenticationType": "API_KEY",
+                            "apiKeyConfig": {
+                                "apiKeyExpirationDays": 7,
+                                "apiKeyExpirationDate": "2021-12-06T18:38:31.196Z",
+                                "description": "2E71Test"
+                            }
+                        },
+                        {
+                            "authenticationType": "AWS_IAM"
+                        }
+                    ]
                 }
             }
         }

@@ -1,6 +1,7 @@
 export type AmplifyDependentResourcesAttributes = {
     api: {
         tictactoe: {
+            GraphQLAPIKeyOutput: "string";
             GraphQLAPIIdOutput: "string";
             GraphQLAPIEndpointOutput: "string";
         };
