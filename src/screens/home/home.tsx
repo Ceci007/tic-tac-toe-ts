@@ -3,13 +3,16 @@ import { View, Image, ScrollView } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import styles from "./home.styles";
 import { StackNavigatorParams } from "@config/navigator";
-import { GradientBackground, Button } from "@components";
+import { GradientBackground, Button, Text } from "@components";
+import { useAuth } from "@contexts/auth-context";
 
 type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
 };
 
 export default function Home({ navigation }: HomeProps): ReactElement {
+    const { user } = useAuth();
+
     return (
         <GradientBackground>
             <ScrollView contentContainerStyle={styles.container}>
@@ -25,10 +28,14 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                     <Button style={styles.button} title="Multiplayer" />
                     <Button
                         onPress={() => {
-                            navigation.navigate("Login");
+                            if(user) {
+                                // logout
+                            } else {
+                                navigation.navigate("Login");
+                            }
                         }}
                         style={styles.button}
-                        title="Login"
+                        title={ user ? "Logout" : "Login"}
                     />
                     <Button
                         onPress={() => {
@@ -37,6 +44,12 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                         style={styles.button}
                         title="Settings"
                     />
+                    { user && 
+                    <Text
+                        style={styles.loggedInText}
+                        weight="400">Logged in as 
+                    <Text weight="700"> { user.username }</Text>
+                    </Text>}
                 </View>
             </ScrollView>
         </GradientBackground>
