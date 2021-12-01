@@ -10,7 +10,7 @@ import {
     DeliusUnicase_700Bold
 } from "@expo-google-fonts/delius-unicase";
 import AppLoading from "expo-app-loading";
-import { Auth } from "aws-amplify";
+import { Auth, Hub } from "aws-amplify";
 import { useAuth } from "@contexts/auth-context";
 
 type AppBootstrapProps = {
@@ -37,6 +37,26 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
         }
 
         checkCurrentUser();
+
+        function hubListener(hubData: any) {
+            const { data, event } = hubData.payload;
+
+            switch(event) {
+                case "signOut":
+                    setUser(null)
+                    break;
+                case "signIn":
+                    setUser(data);
+                default:
+                    break;
+            }
+        }
+
+        Hub.listen("auth", hubListener);
+
+        return () => {
+            Hub.remove("auth", hubListener);
+        }
     }, []);
 
     return fontsLoaded && authLoaded ? 
