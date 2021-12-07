@@ -32,3 +32,5 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+../../react-native/tic-tac-toe/amplify/mock-data
