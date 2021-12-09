@@ -16,7 +16,7 @@
                             "authenticationType": "API_KEY",
                             "apiKeyConfig": {
                                 "apiKeyExpirationDays": 7,
-                                "apiKeyExpirationDate": "2021-12-06T18:38:31.196Z",
+                                "apiKeyExpirationDate": "2021-12-14T16:13:30.567Z",
                                 "description": "2E71Test"
                             }
                         },
@@ -46,6 +46,24 @@
                 "mfaTypes": ["SMS"],
                 "verificationMechanisms": ["EMAIL"]
             }
+        }
+    },
+    "function": {
+        "postConfirmation": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "tictactoe",
+                    "attributes": [
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput",
+                        "GraphQLAPIKeyOutput"
+                    ]
+                }
+            ]
         }
     }
 }

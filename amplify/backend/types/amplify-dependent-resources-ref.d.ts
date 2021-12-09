@@ -1,20 +1,28 @@
 export type AmplifyDependentResourcesAttributes = {
-    "api": {
-        "tictactoe": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
-        }
-    },
-    "auth": {
-        "tictactoe0c8b3f75": {
-            "IdentityPoolId": "string",
-            "IdentityPoolName": "string",
-            "UserPoolId": "string",
-            "UserPoolArn": "string",
-            "UserPoolName": "string",
-            "AppClientIDWeb": "string",
-            "AppClientID": "string"
-        }
-    }
-}
+    api: {
+        tictactoe: {
+            GraphQLAPIKeyOutput: "string";
+            GraphQLAPIIdOutput: "string";
+            GraphQLAPIEndpointOutput: "string";
+        };
+    };
+    auth: {
+        tictactoe0c8b3f75: {
+            IdentityPoolId: "string";
+            IdentityPoolName: "string";
+            UserPoolId: "string";
+            UserPoolArn: "string";
+            UserPoolName: "string";
+            AppClientIDWeb: "string";
+            AppClientID: "string";
+        };
+    };
+    function: {
+        postConfirmation: {
+            Name: "string";
+            Arn: "string";
+            Region: "string";
+            LambdaExecutionRole: "string";
+        };
+    };
+};
