@@ -62,6 +62,32 @@
                         "GraphQLAPIEndpointOutput",
                         "GraphQLAPIKeyOutput"
                     ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "tictactoe0c8b3f75",
+                    "attributes": ["UserPoolId"]
+                }
+            ]
+        },
+        "preAuth": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "tictactoe",
+                    "attributes": [
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput",
+                        "GraphQLAPIKeyOutput"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "tictactoe0c8b3f75",
+                    "attributes": ["UserPoolId"]
                 }
             ]
         }

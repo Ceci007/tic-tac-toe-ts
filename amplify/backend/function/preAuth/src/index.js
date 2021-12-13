@@ -25,6 +25,14 @@ exports.handler = async (event, context, callback) => {
         disableOffline: true
     });
 
+    const query = gql`
+        query getPlayer($username: String!) {
+            getPlayer(username: $username) {
+                id
+            }
+        }
+    `;
+
     const mutation = gql`
         mutation createPlayer(
             $name: String!
@@ -41,16 +49,30 @@ exports.handler = async (event, context, callback) => {
     `;
 
     try {
-        await graphqlClient.mutate({
-            mutation,
+        const response = await graphqlClient.query({
+            query,
             variables: {
-                name: event.request.userAttributes.name,
-                username: event.userName,
-                cognitoID: event.request.userAttributes.sub,
-                email: event.request.userAttributes.email
+                username: event.userName
             }
         });
-        callback(null, event);
+        if (response.data.getPlayer) {
+            callback(null, event);
+        } else {
+            try {
+                await graphqlClient.mutate({
+                    mutation,
+                    variables: {
+                        name: event.request.userAttributes.name,
+                        username: event.userName,
+                        cognitoID: event.request.userAttributes.sub,
+                        email: event.request.userAttributes.email
+                    }
+                });
+                callback(null, event);
+            } catch (error) {
+                callback(error);
+            }
+        }
     } catch (error) {
         callback(error);
     }

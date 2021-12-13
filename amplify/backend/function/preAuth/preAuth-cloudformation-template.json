@@ -63,12 +63,12 @@
                 "FunctionName": {
                     "Fn::If": [
                         "ShouldNotCreateEnvResources",
-                        "postConfirmation",
+                        "preAuth",
                         {
                             "Fn::Join": [
                                 "",
                                 [
-                                    "postConfirmation",
+                                    "preAuth",
                                     "-",
                                     {
                                         "Ref": "env"
@@ -114,12 +114,12 @@
                 "RoleName": {
                     "Fn::If": [
                         "ShouldNotCreateEnvResources",
-                        "tictactoeLambdaRole9ab026ef",
+                        "tictactoeLambdaRolef10b5b53",
                         {
                             "Fn::Join": [
                                 "",
                                 [
-                                    "tictactoeLambdaRole9ab026ef",
+                                    "tictactoeLambdaRolef10b5b53",
                                     "-",
                                     {
                                         "Ref": "env"
@@ -310,7 +310,21 @@
                                 "cognito-idp:ChangePassword",
                                 "cognito-idp:ConfirmDevice",
                                 "cognito-idp:AdminResetUserPassword",
-                                "cognito-idp:ResendConfirmationCode"
+                                "cognito-idp:ResendConfirmationCode",
+                                "cognito-identity:Describe*",
+                                "cognito-identity:Get*",
+                                "cognito-identity:List*",
+                                "cognito-idp:Describe*",
+                                "cognito-idp:AdminGetDevice",
+                                "cognito-idp:AdminGetUser",
+                                "cognito-idp:AdminList*",
+                                "cognito-idp:List*",
+                                "cognito-sync:Describe*",
+                                "cognito-sync:Get*",
+                                "cognito-sync:List*",
+                                "iam:ListOpenIdConnectProviders",
+                                "iam:ListRoles",
+                                "sns:ListPlatformApplications"
                             ],
                             "Resource": [
                                 {

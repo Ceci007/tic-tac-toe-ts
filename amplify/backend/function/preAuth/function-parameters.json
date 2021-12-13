@@ -4,7 +4,7 @@
             "tictactoe": ["Query", "Mutation", "Subscription"]
         },
         "auth": {
-            "tictactoe0c8b3f75": ["create"]
+            "tictactoe0c8b3f75": ["create", "read"]
         }
     },
     "lambdaLayers": []
