@@ -1,0 +1,21 @@
+{
+    "permissions": {
+        "api": {
+            "tictactoe": ["Query", "Mutation", "Subscription"]
+        },
+        "auth": {
+            "tictactoe0c8b3f75": ["create", "read", "update"]
+        },
+        "function": {
+            "postConfirmation": ["create", "read", "update"],
+            "preAuth": ["create", "read", "update"],
+            "startGame": ["create", "read", "update"]
+        },
+        "storage": {
+            "Player:@model(appsync)": ["create", "read", "update"],
+            "PlayerGame:@model(appsync)": ["create", "read", "update"],
+            "Game:@model(appsync)": ["create", "read", "update"]
+        }
+    },
+    "lambdaLayers": []
+}

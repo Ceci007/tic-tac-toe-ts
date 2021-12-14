@@ -126,6 +126,42 @@
                     "attributes": ["Name"]
                 }
             ]
+        },
+        "playMove": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "tictactoe",
+                    "attributes": [
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput",
+                        "GraphQLAPIKeyOutput"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "tictactoe0c8b3f75",
+                    "attributes": ["UserPoolId"]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "postConfirmation",
+                    "attributes": ["Name"]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "preAuth",
+                    "attributes": ["Name"]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "startGame",
+                    "attributes": ["Name"]
+                }
+            ]
         }
     }
 }
