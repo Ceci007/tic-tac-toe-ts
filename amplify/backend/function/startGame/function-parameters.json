@@ -7,10 +7,13 @@
             "tictactoe0c8b3f75": ["create", "read"]
         },
         "function": {
-            "postConfirmation": ["create", "read"]
+            "postConfirmation": ["create", "read"],
+            "preAuth": ["create", "read"]
         },
         "storage": {
-            "Player:@model(appsync)": ["create", "read"]
+            "Player:@model(appsync)": ["create", "read"],
+            "PlayerGame:@model(appsync)": ["create", "read"],
+            "Game:@model(appsync)": ["create", "read"]
         }
     },
     "lambdaLayers": []

@@ -1,7 +1,22 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+type Mutation {
+    startGame(invitee: String!): GameData
+        @function(name: "startGame-${env}")
+        @aws_cognito_user_pools
+}
+
+type GameData {
+    id: ID!
+    status: GameStatus!
+    turn: String!
+    state: [Symbol]!
+    winner: String
+}
+
 type Player 
   @model 
+  @key(fields: ["username"])
   @auth(
     rules: [
       { allow: private, operations: [read] }
@@ -11,7 +26,60 @@ type Player
   ) {
   id: ID!
   cognitoID: String!
-  username: String! @primaryKey
+  username: String! 
   name: String!
   email: AWSEmail!
+  games: [PlayerGame] @connection(keyName: "byPlayer", fields: ["username"])
+}
+
+type PlayerGame 
+  @model(queries: null) 
+  @key(name: "byGame", fields: ["gameID"])
+  @key(name: "byPlayer", fields: ["playerUsername", "createdAt"])
+  @auth(
+      rules: [
+          { allow: owner, ownerField: "owners", operations: [read] }
+          { allow: private, provider: iam, operations: [read, create, update, delete] }
+      ]
+  )
+{
+  id: ID! 
+  createdAt: String!
+  gameID: ID! 
+  playerUsername: String!
+  owners: [String!]!
+  game: Game! @connection(fields: ["gameID"])
+  player: Player! @connection(fields: ["playerUsername"])
+}
+
+type Game 
+  @model 
+  @auth(
+      rules: [
+          { allow: owner, ownerField: "owners", operations: [read] }
+          { allow: private, provider: iam, operations: [read, create, update, delete] }
+      ]
+  )
+{
+  id: ID!
+  status: GameStatus!
+  owners: [String!]!
+  initiator: String!
+  turn: String!
+  state: [Symbol]!
+  winner: String
+  players: [PlayerGame] @connection(keyName: "byGame", fields: ["id"])
+}
+
+enum GameStatus {
+  REQUESTED 
+  DECLINED 
+  ACTIVE 
+  FINISHED 
+  CANCELLED
+}
+
+enum Symbol {
+  x
+  o
 }

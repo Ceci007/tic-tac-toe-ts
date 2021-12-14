@@ -1,7 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
     api: {
         tictactoe: {
-            GraphQLAPIKeyOutput: "string";
             GraphQLAPIIdOutput: "string";
             GraphQLAPIEndpointOutput: "string";
         };
@@ -25,6 +24,12 @@ export type AmplifyDependentResourcesAttributes = {
             LambdaExecutionRole: "string";
         };
         preAuth: {
+            Name: "string";
+            Arn: "string";
+            Region: "string";
+            LambdaExecutionRole: "string";
+        };
+        startGame: {
             Name: "string";
             Arn: "string";
             Region: "string";

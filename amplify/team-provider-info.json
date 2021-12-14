@@ -31,11 +31,15 @@
             "function": {
                 "postConfirmation": {
                     "deploymentBucketName": "amplify-tictactoe-tictactoe-102030-deployment",
-                    "s3Key": "amplify-builds/postConfirmation-79312f73687844333768-build.zip"
+                    "s3Key": "amplify-builds/postConfirmation-52686639334565482f70-build.zip"
                 },
                 "preAuth": {
                     "deploymentBucketName": "amplify-tictactoe-tictactoe-102030-deployment",
-                    "s3Key": "amplify-builds/preAuth-4434503868396a6a2b4d-build.zip"
+                    "s3Key": "amplify-builds/preAuth-49346b50585278497137-build.zip"
+                },
+                "startGame": {
+                    "deploymentBucketName": "amplify-tictactoe-tictactoe-102030-deployment",
+                    "s3Key": "amplify-builds/startGame-38305265735052757933-build.zip"
                 }
             }
         }
