@@ -1,16 +1,15 @@
-import { colors } from "@utils";
+import { colors, globalStyles } from "@utils";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 30,
-        paddingVertical: 40
+        ...globalStyles.container
     },
     registerLink: {
         color: colors.lightGreen,
         textAlign: "center",
         marginTop: 20,
-        textDecorationLine: "underline",
+        textDecorationLine: "underline"
     },
     forgotPasswordLink: {
         color: colors.lightGreen,

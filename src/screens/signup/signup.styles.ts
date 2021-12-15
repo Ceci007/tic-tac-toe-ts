@@ -1,10 +1,9 @@
-import { colors } from "@utils";
+import { colors, globalStyles } from "@utils";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 30,
-        paddingVertical: 40
+        ...globalStyles.container
     },
     otpInputBox: {
         color: colors.lightGreen,
@@ -14,20 +13,20 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         backgroundColor: colors.purple,
         borderBottomWidth: 1,
-        borderColor: colors.lightGreen,
+        borderColor: colors.lightGreen
     },
     otpActiveInputBox: {
         borderWidth: 1,
-        borderColor: colors.lightGreen,
+        borderColor: colors.lightGreen
     },
     otpText: {
-        color: colors.lightGreen,
+        color: colors.lightGreen
     },
     resendLink: {
         color: colors.lightGreen,
         textAlign: "center",
-        textDecorationLine: "underline",
-    } 
+        textDecorationLine: "underline"
+    }
 });
 
 export default styles;

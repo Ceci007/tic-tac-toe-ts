@@ -27,15 +27,27 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                         style={styles.button}
                         title="Single Player"
                     />
-                    <Button style={styles.button} title="Multiplayer" />
+                    <Button
+                        onPress={() => {
+                            if (user) {
+                                navigation.navigate("MultiplayerHome");
+                            } else {
+                                navigation.navigate("Login", {
+                                    redirect: "MultiplayerHome"
+                                });
+                            }
+                        }}
+                        style={styles.button}
+                        title="Multiplayer"
+                    />
                     <Button
                         loading={signinOut}
                         onPress={async () => {
-                            if(user) {
+                            if (user) {
                                 setSigninOut(true);
                                 try {
                                     await Auth.signOut();
-                                } catch(error) {
+                                } catch (error) {
                                     Alert.alert("Error!", "Error signin up!");
                                 }
                                 setSigninOut(false);
@@ -44,7 +56,7 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                             }
                         }}
                         style={styles.button}
-                        title={ user ? "Logout" : "Login"}
+                        title={user ? "Logout" : "Login"}
                     />
                     <Button
                         onPress={() => {
@@ -53,12 +65,12 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                         style={styles.button}
                         title="Settings"
                     />
-                    { user && 
-                    <Text
-                        style={styles.loggedInText}
-                        weight="400">Logged in as 
-                    <Text weight="700"> { user.username }</Text>
-                    </Text>}
+                    {user && (
+                        <Text style={styles.loggedInText} weight="400">
+                            Logged in as
+                            <Text weight="700"> {user.username}</Text>
+                        </Text>
+                    )}
                 </View>
             </ScrollView>
         </GradientBackground>
