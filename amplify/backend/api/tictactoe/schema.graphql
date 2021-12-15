@@ -26,6 +26,7 @@ type GameData {
 
 type Player 
   @model 
+  @searchable
   @key(fields: ["username"])
   @auth(
     rules: [
