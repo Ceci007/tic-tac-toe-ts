@@ -61,12 +61,55 @@ export default function MultiplayerHome(): ReactElement {
         }
     };
 
+    const getResult = (playerGame: PlayerGameType): "win" | "loss" | "draw" | false => {
+        if (!playerGame || !user) return false;
+        const game = playerGame.game;
+        if (game.status !== "FINISHED") return false;
+        const opponent = game?.players?.items?.find(
+            playerGame => playerGame?.player.username !== user.username
+        );
+        if (game.winner === user.username) return "win";
+        if (game.winner === opponent?.player.username) return "loss";
+        if (game.winner === null) return "draw";
+        return false;
+    };
+
     const renderGame = ({ item }: { item: PlayerGameType }) => {
+        if (!user) return null;
         const game = item?.game;
+        const result = getResult(item);
+        const opponent = game?.players?.items?.find(
+            playerGame => playerGame?.player.username !== user.username
+        );
         return (
-            <TouchableOpacity style={{ marginBottom: 20 }}>
-                <Text style={{ color: colors.lightGreen }}>{game?.owners[0]}</Text>
-                <Text style={{ color: colors.lightGreen }}>{game?.owners[1]}</Text>
+            <TouchableOpacity style={styles.item}>
+                <Text style={styles.itemTitle}>
+                    {opponent?.player.name} ({opponent?.player.username})
+                </Text>
+                {(game?.status === "REQUESTED" || game?.status === "ACTIVE") && (
+                    <Text
+                        style={{
+                            color: colors.lightGreen,
+                            textAlign: "center"
+                        }}
+                    >
+                        {game.turn === user.username
+                            ? "Your Turn!"
+                            : `Waiting For ${opponent?.player.username}`}
+                    </Text>
+                )}
+                {result && (
+                    <Text
+                        style={{
+                            color: colors[result],
+                            textAlign: "center"
+                        }}
+                    >
+                        {result === "win" && "You Won!"}
+                        {result === "loss" && "You Lost!"}
+                        {result === "draw" && "It's a Draw!"}
+                    </Text>
+                )}
             </TouchableOpacity>
         );
     };
@@ -78,56 +121,56 @@ export default function MultiplayerHome(): ReactElement {
     return (
         <GradientBackground>
             {user ? (
-                <FlatList
-                    contentContainerStyle={styles.container}
-                    data={playerGames}
-                    renderItem={renderGame}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={() => {
-                                fetchPlayer(null);
-                            }}
-                            tintColor={colors.lightGreen}
-                        />
-                    }
-                    keyExtractor={playerGame =>
-                        playerGame ? playerGame.game.id : `${new Date().getTime()}`
-                    }
-                    ListFooterComponent={() => {
-                        if (!nextToken) return null;
-                        return (
-                            <Button
-                                loading={loading && !refreshing}
-                                title="Load More"
-                                onPress={() => {
-                                    fetchPlayer(nextToken);
+                <>
+                    <FlatList
+                        contentContainerStyle={styles.container}
+                        data={playerGames}
+                        renderItem={renderGame}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={() => {
+                                    fetchPlayer(null);
                                 }}
+                                tintColor={colors.lightGreen}
                             />
-                        );
-                    }}
-                    ListEmptyComponent={() => {
-                        if (loading) {
+                        }
+                        keyExtractor={playerGame =>
+                            playerGame ? playerGame.game.id : `${new Date().getTime()}`
+                        }
+                        ListFooterComponent={() => {
+                            if (!nextToken) return null;
                             return (
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        justifyContent: "center",
-                                        alignItems: "center"
+                                <Button
+                                    style={{ marginTop: 20 }}
+                                    loading={loading && !refreshing}
+                                    title="Load More"
+                                    onPress={() => {
+                                        fetchPlayer(nextToken);
                                     }}
-                                >
-                                    <ActivityIndicator color={colors.lightGreen} />
+                                />
+                            );
+                        }}
+                        ListEmptyComponent={() => {
+                            if (loading) {
+                                return (
+                                    <View style={styles.loading}>
+                                        <ActivityIndicator color={colors.lightGreen} />
+                                    </View>
+                                );
+                            }
+
+                            return (
+                                <View>
+                                    <Text style={{ color: colors.lightGreen }}>No Games Yet</Text>
                                 </View>
                             );
-                        }
-
-                        return (
-                            <View>
-                                <Text style={{ color: colors.lightGreen }}>No Games Yet</Text>
-                            </View>
-                        );
-                    }}
-                />
+                        }}
+                    />
+                    <TouchableOpacity style={styles.newGameButton}>
+                        <Text style={styles.newGameButtonText}>New Game</Text>
+                    </TouchableOpacity>
+                </>
             ) : (
                 <View style={styles.container}>
                     <Text style={{ color: colors.lightGreen }}>
