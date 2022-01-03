@@ -1,9 +1,13 @@
 import React, { ReactElement, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
-import { Text } from "@components";
+import { API, graphqlOperation } from "aws-amplify";
+import Observable from "zen-observable";
+
 import { useAuth } from "@contexts/auth-context";
+import { Text } from "@components";
+import { PlayerGameType, onUpdateGameById } from "./multiplayer-home.graphql";
 import { colors } from "@utils";
-import { PlayerGameType } from "./multiplayer-home.graphql";
+
 import styles from "./multiplayer-home.styles";
 
 export default function GameItem({
@@ -34,10 +38,20 @@ export default function GameItem({
     );
 
     useEffect(() => {
-        if (game) {
-            console.log("mount", game.id);
+        if (game && (game.status === "REQUESTED" || game.status === "ACTIVE")) {
+            const gameUpdates = (API.graphql(
+                graphqlOperation(onUpdateGameById, {
+                    id: game.id
+                })
+            ) as unknown) as Observable<{ [key: string]: any }>;
+            const subscription = gameUpdates.subscribe({
+                next: data => {
+                    console.log(data);
+                }
+            });
+
             return () => {
-                console.log("unmount", game.id);
+                subscription.unsubscribe();
             };
         }
     }, []);
@@ -48,27 +62,17 @@ export default function GameItem({
                 {opponent?.player.name} ({opponent?.player.username})
             </Text>
             {(game?.status === "REQUESTED" || game?.status === "ACTIVE") && (
-                <Text
-                    style={{
-                        color: colors.lightGreen,
-                        textAlign: "center"
-                    }}
-                >
+                <Text style={{ color: colors.lightGreen, textAlign: "center" }}>
                     {game.turn === user.username
                         ? "Your Turn!"
-                        : `Waiting For ${opponent?.player.username}`}
+                        : `Waiting for ${opponent?.player.username}`}
                 </Text>
             )}
             {result && (
-                <Text
-                    style={{
-                        color: colors[result],
-                        textAlign: "center"
-                    }}
-                >
+                <Text style={{ color: colors[result], textAlign: "center" }}>
                     {result === "win" && "You Won!"}
                     {result === "loss" && "You Lost!"}
-                    {result === "draw" && "It's a Draw!"}
+                    {result === "draw" && "It is a draw!"}
                 </Text>
             )}
         </TouchableOpacity>
