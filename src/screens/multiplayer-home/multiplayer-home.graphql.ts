@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { GetPlayerQuery } from "@api";
 
 export const getPlayer = gql`
     query GetPlayer(
@@ -33,3 +34,25 @@ export const getPlayer = gql`
         }
     }
 `;
+
+export const onUpdateGameById = gql`
+    subscription onUpdateGameById($id: ID!) {
+        onUpdateGameById(id: $id) {
+            id
+            status
+            turn
+            state
+            winner
+        }
+    }
+`;
+
+export type PlayerGamesType = Exclude<
+    Exclude<
+        Exclude<GetPlayerQuery["getPlayer"], null | undefined>["games"],
+        null | undefined
+    >["items"],
+    null | undefined
+>;
+
+export type PlayerGameType = Exclude<PlayerGamesType, null | undefined>[0];
