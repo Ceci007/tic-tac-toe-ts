@@ -44,9 +44,10 @@ export default function GameItem({
                     id: game.id
                 })
             ) as unknown) as Observable<{ [key: string]: any }>;
+
             const subscription = gameUpdates.subscribe({
-                next: data => {
-                    console.log(data);
+                next: ({ value }) => {
+                    console.log(value);
                 }
             });
 
