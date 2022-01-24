@@ -1,5 +1,5 @@
 import React, { useEffect, ReactElement, useState } from "react";
-import { Alert, View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
+import { Alert, View, FlatList, ActivityIndicator, RefreshControl, Dimensions } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
 
 import { Button, GradientBackground, Text } from "@components";
@@ -12,6 +12,8 @@ import { GraphQLResult } from "@aws-amplify/api";
 import { getPlayer, PlayerGameType } from "./multiplayer-home.graphql";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import GameItem from "./game-item";
+import Modal from "react-native-modal";
+import PlayersModal from "./players-modal/players-modal";
 
 export default function MultiplayerHome(): ReactElement {
     const { user } = useAuth();
@@ -19,6 +21,7 @@ export default function MultiplayerHome(): ReactElement {
     const [nextToken, setNextToken] = useState<string | null | undefined>(null);
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [playersModal, setPlayersModal] = useState(false);
 
     const fetchPlayer = async (nextToken: string | null | undefined, init = false) => {
         if (user) {
@@ -106,7 +109,10 @@ export default function MultiplayerHome(): ReactElement {
                             );
                         }}
                     />
-                    <TouchableOpacity style={styles.newGameButton}>
+                    <TouchableOpacity
+                        onPress={() => setPlayersModal(true)}
+                        style={styles.newGameButton}
+                    >
                         <Text style={styles.newGameButtonText}>New Game</Text>
                     </TouchableOpacity>
                 </>
@@ -117,6 +123,15 @@ export default function MultiplayerHome(): ReactElement {
                     </Text>
                 </View>
             )}
+            <Modal
+                style={{ margin: 0 }}
+                isVisible={playersModal}
+                backdropOpacity={0.75}
+                onBackButtonPress={() => setPlayersModal(false)}
+                onBackdropPress={() => setPlayersModal(false)}
+            >
+                <PlayersModal />
+            </Modal>
         </GradientBackground>
     );
 }
