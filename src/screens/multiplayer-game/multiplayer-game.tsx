@@ -1,13 +1,15 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, ActivityIndicator } from "react-native";
 import { API, graphqlOperation, loadingSceneName } from "aws-amplify";
-import { GradientBackground, Text } from "@components";
+import { GradientBackground, Text, Board } from "@components";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigatorParams } from "@config/navigator";
 import { getGame, startGame, playMove } from "./multiplayer-game.graphql";
 import { GraphQLResult } from "@aws-amplify/api";
-import { getGameQuery, startGameMutation } from "@api";
+import { getGameQuery, startGameMutation, playMoveMutation } from "@api";
+import { useAuth } from "@contexts/auth-context";
+import { colors, BoardState, Moves } from "@utils";
 import styles from "./multiplayer-game.styles";
 
 type GameType = getGameQuery["getGame"];
@@ -29,6 +31,9 @@ export default function MultiplayerGame({ navigation, route }: MultiPlayerGamePr
     const [gameId, setGameId] = useState<string | null>(null);
     const [game, setGame] = useState<GameType | null>(null);
     const [loading, setLoading] = useState(false);
+    const [playingTurn, setPlayingTurn] = useState<Moves | false>(false);
+
+    const { user } = useAuth();
 
     const initGame = async () => {
         setLoading(true);
@@ -42,7 +47,6 @@ export default function MultiplayerGame({ navigation, route }: MultiPlayerGamePr
                 )) as GraphQLResult<startGameMutation>;
 
                 if (startGameRes.data?.startGame) {
-                    //console.log(startGameRes.data.startGame.id);
                     gameId = startGameRes.data.startGame.id;
                 }
             }
@@ -65,15 +69,52 @@ export default function MultiplayerGame({ navigation, route }: MultiPlayerGamePr
         setLoading(false);
     };
 
+    const playTurn = async (index: Moves) => {
+        setPlayingTurn(index);
+        try {
+            const playMoveRes = (await API.graphql(
+                graphqlOperation(playMove, {
+                    index,
+                    game: gameId
+                })
+            )) as GraphQLResult<playMoveMutation>;
+            if (game && playMoveRes.data?.playMove) {
+                const { status, state, winner, turn } = playMoveRes.data.playMove;
+                setGame({ ...game, status, state, winner, turn });
+            }
+        } catch (error) {
+            console.log(error);
+            if (error.errors && error.errors.length > 0) {
+                Alert.alert("Error!", error.errors[0].message);
+            } else {
+                Alert.alert("Error!", error.message || "An error has occured");
+            }
+        }
+        setPlayingTurn(false);
+    };
+
     useEffect(() => {
         initGame();
     }, []);
 
     return (
         <GradientBackground>
-            <View>
-                <Text>asdf</Text>
-            </View>
+            {loading && (
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    <ActivityIndicator color={colors.lightGreen} />
+                </View>
+            )}
+            {game && user && (
+                <Board
+                    size={300}
+                    loading={playingTurn}
+                    disabled={game.turn !== user.username || playingTurn !== false}
+                    state={game.state as BoardState}
+                    onCellPressed={index => {
+                        playTurn(index as Moves);
+                    }}
+                />
+            )}
         </GradientBackground>
     );
 }

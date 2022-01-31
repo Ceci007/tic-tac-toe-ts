@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
-import { View, TouchableOpacity } from "react-native";
-import { BoardState, BoardResult } from "@utils";
+import { View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { BoardState, BoardResult, Moves, colors } from "@utils";
 import BoardLine from "./board-line";
 import Text from "../text/text";
 import styles from "./board.styles";
@@ -11,6 +11,7 @@ type BoardProps = {
     disabled?: boolean;
     gameResult?: BoardResult | false;
     onCellPressed?: (index: number) => void;
+    loading?: Moves | false;
 };
 
 export default function board({
@@ -18,7 +19,8 @@ export default function board({
     disabled,
     size,
     gameResult,
-    onCellPressed
+    onCellPressed,
+    loading
 }: BoardProps): ReactElement {
     return (
         <View
@@ -38,7 +40,11 @@ export default function board({
                         style={[styles.cell, styles[`cell${index}` as "cell"]]}
                         key={index}
                     >
-                        <Text style={[styles.cellText, { fontSize: size / 7 }]}>{cell}</Text>
+                        {loading === index ? (
+                            <ActivityIndicator color={colors.lightGreen} />
+                        ) : (
+                            <Text style={[styles.cellText, { fontSize: size / 7 }]}>{cell}</Text>
+                        )}
                     </TouchableOpacity>
                 );
             })}
