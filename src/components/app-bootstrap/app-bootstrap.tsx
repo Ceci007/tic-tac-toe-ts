@@ -1,9 +1,4 @@
-import React, { 
-    ReactNode, 
-    ReactElement, 
-    useState, 
-    useEffect, 
-} from "react";
+import React, { ReactNode, ReactElement, useState, useEffect } from "react";
 import {
     useFonts,
     DeliusUnicase_400Regular,
@@ -30,7 +25,7 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
             try {
                 const user = await Auth.currentAuthenticatedUser();
                 setUser(user);
-            } catch(error) {
+            } catch (error) {
                 setUser(null);
             }
             setAuthLoaded(true);
@@ -41,12 +36,13 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
         function hubListener(hubData: any) {
             const { data, event } = hubData.payload;
 
-            switch(event) {
+            switch (event) {
                 case "signOut":
-                    setUser(null)
+                    setUser(null);
                     break;
                 case "signIn":
                     setUser(data);
+                    break;
                 default:
                     break;
             }
@@ -56,9 +52,8 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
 
         return () => {
             Hub.remove("auth", hubListener);
-        }
+        };
     }, []);
 
-    return fontsLoaded && authLoaded ? 
-    <>{children}</> : <AppLoading />;
+    return fontsLoaded && authLoaded ? <>{children}</> : <AppLoading />;
 }

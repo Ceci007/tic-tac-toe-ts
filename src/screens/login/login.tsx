@@ -6,6 +6,7 @@ import { StackNavigatorParams } from "@config/navigator";
 import { RouteProp } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import styles from "./login.styles";
+import { getErrorMessage } from "@utils";
 
 type LoginProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Login">;
@@ -34,7 +35,7 @@ export default function Login({ navigation, route }: LoginProps): ReactElement {
             if (error.code === "UserNotConfirmedException") {
                 navigation.navigate("SignUp", { username });
             } else {
-                Alert.alert("Error!", error.message || "An error has occured");
+                Alert.alert("Error!", getErrorMessage(error));
             }
         }
         setLoading(false);

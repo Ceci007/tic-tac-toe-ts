@@ -11,6 +11,7 @@ import styles from "./change-password.styles";
 import { Auth } from "aws-amplify";
 import { useHeaderHeight } from "@react-navigation/stack";
 import { useAuth } from "@contexts/auth-context";
+import { getErrorMessage } from "@utils";
 
 export default function ChangePassword(): ReactElement {
     const headerHeight = useHeaderHeight();
@@ -36,7 +37,7 @@ export default function ChangePassword(): ReactElement {
             });
             Alert.alert("Success!", "Password Changed Successfully!");
         } catch (error) {
-            Alert.alert("Error!", error.message || "An error has occurred!");
+            Alert.alert("Error!", getErrorMessage(error));
         }
         setLoading(false);
     };
@@ -89,4 +90,4 @@ export default function ChangePassword(): ReactElement {
             </KeyboardAvoidingView>
         </GradientBackground>
     );
-} 
+}

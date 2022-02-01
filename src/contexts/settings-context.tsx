@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getErrorMessage } from "@utils";
 
 const difficulties = {
     "1": "Begginer",
@@ -58,7 +59,7 @@ function SettingsProvider(props: { children: ReactNode }): ReactElement {
             await AsyncStorage.setItem("@settings", jsonSettings);
             setSettings(newSettings);
         } catch (error) {
-            Alert.alert("Error!", "an error has occurred!");
+            Alert.alert("Error!", getErrorMessage(error));
         }
     };
 

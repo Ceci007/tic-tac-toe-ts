@@ -11,6 +11,7 @@ import styles from "./forgot-password.styles";
 import { Auth } from "aws-amplify";
 import { StackNavigationProp, useHeaderHeight } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
+import { getErrorMessage } from "@utils";
 
 type ForgotPasswordScreenNavigationProp = StackNavigationProp<
     StackNavigatorParams,
@@ -41,7 +42,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps): Rea
             await Auth.forgotPassword(username);
             setStep("2");
         } catch (error) {
-            Alert.alert("Error!", error.message || "An error has occurred!");
+            Alert.alert("Error!", getErrorMessage(error));
         }
         setLoading(false);
     };
@@ -54,7 +55,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps): Rea
             Alert.alert("Success!", "Password Changed Successfully!");
             navigation.navigate("Login");
         } catch (error) {
-            Alert.alert("Error!", error.message || "An error has occurred!");
+            Alert.alert("Error!", getErrorMessage(error));
         }
         setLoading(false);
     };
@@ -118,4 +119,4 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps): Rea
             </KeyboardAvoidingView>
         </GradientBackground>
     );
-} 
+}

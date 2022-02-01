@@ -1,8 +1,16 @@
 import React, { ReactElement, useState, useEffect } from "react";
-import { SafeAreaView, View, Dimensions } from "react-native";
+import { SafeAreaView, View, Dimensions, Alert } from "react-native";
 import { GradientBackground, Board, Text, Button } from "@components";
 import styles from "./single-player-game.styles";
-import { isEmpty, BoardState, isTerminal, getBestMove, Cell, useSounds } from "@utils";
+import {
+    isEmpty,
+    BoardState,
+    isTerminal,
+    getBestMove,
+    Cell,
+    useSounds,
+    getErrorMessage
+} from "@utils";
 import { useSettings, difficulties } from "@contexts/settings-context";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
@@ -33,7 +41,7 @@ export default function Game(): ReactElement {
         try {
             symbol === "x" ? playSound("pop1") : playSound("pop2");
         } catch (error) {
-            console.log(error);
+            Alert.alert("Error!", getErrorMessage(error));
         }
     };
 

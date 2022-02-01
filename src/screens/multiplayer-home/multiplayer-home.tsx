@@ -1,5 +1,5 @@
 import React, { useEffect, ReactElement, useState } from "react";
-import { Alert, View, FlatList, ActivityIndicator, RefreshControl, Dimensions } from "react-native";
+import { Alert, View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
 
 import { Button, GradientBackground, Text } from "@components";
@@ -16,6 +16,7 @@ import Modal from "react-native-modal";
 import PlayersModal from "./players-modal/players-modal";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
+import { getErrorMessage } from "@utils";
 
 type MultiplayerHomeScreenNavigationProp = StackNavigationProp<
     StackNavigatorParams,
@@ -59,8 +60,7 @@ export default function MultiplayerHome({ navigation }: MultiplayerHomeProps): R
                     setNextToken(player.data.getPlayer.games.nextToken);
                 }
             } catch (error) {
-                console.log(error);
-                Alert.alert("Error!", "An error has occurred!");
+                Alert.alert("Error!", getErrorMessage(error));
             }
             setLoading(false);
             setRefreshing(false);
